@@ -43,9 +43,16 @@ export default function MysteryBox() {
   return (
     <div
       className="mystery-wrap"
-      onPointerDown={(event) => event.stopPropagation()}
-      onPointerMove={(event) => event.stopPropagation()}
-      onTouchStart={(event) => event.stopPropagation()}
+      onPointerDownCapture={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+      }}
+      onPointerMoveCapture={(event) => event.stopPropagation()}
+      onPointerUpCapture={(event) => event.stopPropagation()}
+      onClickCapture={(event) => event.stopPropagation()}
+      onMouseDownCapture={(event) => event.stopPropagation()}
+      onTouchStartCapture={(event) => event.stopPropagation()}
+      onTouchMoveCapture={(event) => event.stopPropagation()}
     >
       {state !== "open" && (
         <div className={`mystery-box${state === "opening" ? " is-opening" : ""}`}>
