@@ -969,3 +969,23 @@
     transform: translateY(0);
   }
 }
+
+/* Mystery video is mounted before the box opens so the box click can start
+   playback as a real user gesture. It becomes visible with the reveal. */
+.mystery-video-frame {
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  margin: 0;
+  transition: opacity 0.2s ease;
+}
+
+.mystery-video-frame.is-visible {
+  position: relative;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 1;
+}

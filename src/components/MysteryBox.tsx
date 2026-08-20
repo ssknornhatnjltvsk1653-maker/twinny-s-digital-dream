@@ -13,30 +13,41 @@ export default function MysteryBox() {
 
   const open = () => {
     if (state !== "idle") return;
+
     playKawaii("open");
+
+    // Start playback directly from the box click. The previous version waited
+    // 700ms before calling play(), which loses the browser's user-gesture
+    // permission and commonly blocks video playback on mobile.
+    const video = videoRef.current;
+    if (video) {
+      video.currentTime = 0;
+      void video.play()
+        .then(() => setNeedsTap(false))
+        .catch(() => setNeedsTap(true));
+    }
+
     setState("opening");
+
     window.setTimeout(() => {
       setState("open");
-      // the click above counts as user interaction, so try to play with sound
-      window.setTimeout(() => {
-        const v = videoRef.current;
-        if (!v) return;
-        void v.play().catch(() => setNeedsTap(true));
-      }, 60);
     }, 700);
   };
 
   const manualPlay = () => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = false;
-    void v
-      .play()
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = false;
+    void video.play()
       .then(() => setNeedsTap(false))
       .catch(() => {
-        v.muted = true;
-        void v.play().catch(() => undefined);
-        setNeedsTap(false);
+        // Some mobile browsers may still block sound. In that case, make sure
+        // the surprise can at least start playing silently.
+        video.muted = true;
+        void video.play()
+          .then(() => setNeedsTap(false))
+          .catch(() => undefined);
       });
   };
 
@@ -73,42 +84,31 @@ export default function MysteryBox() {
         </div>
       )}
 
+      <div className={`video-frame mystery-video-frame${state === "open" ? " is-visible" : ""}`}>
+        {!videoBroken ? (
+          <video
+            ref={videoRef}
+            className="video-el"
+            src={VIDEO_SRC}
+            preload="auto"
+            playsInline
+            controls={state === "open"}
+            onError={() => setVideoBroken(true)}
+          />
+        ) : (
+          <p className="scrap-text video-missing">
+            the video is not here yet 😭
+            <br />
+            drop it at <code>public/video/twinny-surprise.mp4</code>
+          </p>
+        )}
+      </div>
+
       {state === "open" && (
         <div className="mystery-reveal">
           <div className="scrap-note mystery-note">
             <h2 className="scrap-title">FOR MY TWINNY</h2>
             <p className="scrap-text">the last little surprise</p>
-          </div>
-
-          <div className="video-frame">
-            {!videoBroken ? (
-              <video
-                ref={videoRef}
-                className="video-el"
-                src={VIDEO_SRC}
-                preload="auto"
-                playsInline
-                controls
-                autoPlay
-                onLoadedData={() => {
-                  const video = videoRef.current;
-                  if (video) void video.play().catch(() => setNeedsTap(true));
-                }}
-                onCanPlay={() => {
-                  const video = videoRef.current;
-                  if (video && video.paused) {
-                    void video.play().catch(() => setNeedsTap(true));
-                  }
-                }}
-                onError={() => setVideoBroken(true)}
-              />
-            ) : (
-              <p className="scrap-text video-missing">
-                the video is not here yet 😭
-                <br />
-                drop it at <code>public/video/twinny-surprise.mp4</code>
-              </p>
-            )}
           </div>
 
           {needsTap && !videoBroken && (
