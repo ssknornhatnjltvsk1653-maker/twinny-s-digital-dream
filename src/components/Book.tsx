@@ -53,6 +53,15 @@ export default function Book() {
 
     let flip: PageFlip | null = null;
     let cancelled = false;
+    let ro: ResizeObserver | null = null;
+
+    // Keep the fixed 420x560 page artwork perfectly scaled to whatever size
+    // the flip engine stretched the page to (this is the mobile fix).
+    const syncScale = () => {
+      const item = el.querySelector<HTMLElement>(".stf__item, .book-page");
+      const w = item?.clientWidth ?? W;
+      el.style.setProperty("--page-scale", String(Math.min(1, w / W)));
+    };
 
     // Browser-only library: import it after mount so SSR never touches it.
     void import("page-flip").then((mod) => {
@@ -63,19 +72,32 @@ export default function Book() {
       flip = new Flip(el, {
         width: W,
         height: H,
-        autoSize: false,
+        size: "stretch",
+        minWidth: 240,
+        maxWidth: W,
+        minHeight: 320,
+        maxHeight: H,
+        autoSize: true,
         showCover: true,
         drawShadow: true,
         maxShadowOpacity: 0.5,
-        usePortrait: false,
+        usePortrait: true,
+        mobileScrollSupport: true,
         startPage: 0,
       } as ConstructorParameters<typeof PageFlip>[1]);
 
       flip.loadFromHTML(pages);
+      syncScale();
+
+      if (typeof ResizeObserver !== "undefined") {
+        ro = new ResizeObserver(() => syncScale());
+        ro.observe(el);
+      }
     });
 
     return () => {
       cancelled = true;
+      ro?.disconnect();
       try {
         flip?.destroy();
       } catch {
@@ -89,6 +111,7 @@ export default function Book() {
 
   return (
     <div ref={bookRef} className="scrap-book">
+
       {/* Front Cover */}
       <div
         className="book-page relative overflow-hidden bg-[#8fb7d9]"
