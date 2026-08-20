@@ -1,12 +1,9 @@
 import { useRef, useState } from "react";
 import { playKawaii } from "@/lib/kawaii-sound";
 
-// 👉 PUT YOUR VIDEO HERE:  public/video/final-video.mp4
-// Replace that file with your own clip (same name) and it just works.
-// If the file is missing the page still works — it shows a cute note instead.
-const VIDEO_SRC = "/video/final-video.mp4";
+const VIDEO_SRC = "/video/twinny-surprise.mp4";
 
-const PARTICLES = ["✨", "⭐", "💗", "🎀", "🍓", "🌟", "💫", "☁️", "🌸", "💖"];
+const PARTICLES = ["•", "·", "✦", "·", "•", "✧", "·", "•"];
 
 export default function MysteryBox() {
   const [state, setState] = useState<"idle" | "opening" | "open">("idle");
@@ -44,19 +41,30 @@ export default function MysteryBox() {
   };
 
   return (
-    <div className="mystery-wrap">
+    <div
+      className="mystery-wrap"
+      onPointerDown={(event) => event.stopPropagation()}
+      onPointerMove={(event) => event.stopPropagation()}
+      onTouchStart={(event) => event.stopPropagation()}
+    >
       {state !== "open" && (
         <div className={`mystery-box${state === "opening" ? " is-opening" : ""}`}>
           <button
             type="button"
             className="mystery-btn"
             onClick={open}
-            aria-label="open the mystery box"
+            aria-label="open the gift box"
           >
-            <span className="mystery-lid">🎁</span>
+            <span className="gift-box" aria-hidden="true">
+              <span className="gift-box-lid" />
+              <span className="gift-box-body">
+                <span className="gift-box-ribbon gift-box-ribbon-v" />
+                <span className="gift-box-ribbon gift-box-ribbon-h" />
+              </span>
+            </span>
           </button>
           <p className="scrap-title mystery-label">MYSTERY BOX</p>
-          <p className="scrap-text">OPEN ME 🎀</p>
+          <p className="scrap-text">tap the open box</p>
           <span className="mystery-glow" aria-hidden="true" />
         </div>
       )}
@@ -64,8 +72,8 @@ export default function MysteryBox() {
       {state === "open" && (
         <div className="mystery-reveal">
           <div className="scrap-note mystery-note">
-            <h2 className="scrap-title">FOR MY TWINNY 🎀⭐</h2>
-            <p className="scrap-text">the last little surprise 🤍</p>
+            <h2 className="scrap-title">FOR MY TWINNY</h2>
+            <p className="scrap-text">the last little surprise</p>
           </div>
 
           <div className="video-frame">
@@ -90,7 +98,7 @@ export default function MysteryBox() {
 
           {needsTap && !videoBroken && (
             <button type="button" className="scrap-btn" onClick={manualPlay}>
-              tap to play ▶️
+              tap to play
             </button>
           )}
 

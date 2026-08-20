@@ -534,16 +534,34 @@
 .mystery-btn {
   border: none;
   background: transparent;
-  font-size: 4.2rem;
   line-height: 1;
   cursor: pointer;
-  padding: 12px;
+  padding: 18px 20px 12px;
   touch-action: manipulation;
   filter: drop-shadow(0 8px 12px oklch(0 0 0 / 0.25));
   transition: transform 0.2s ease;
 }
 .mystery-btn:hover { transform: scale(1.08) rotate(-3deg); }
 .mystery-btn:active { transform: scale(0.94); }
+.gift-box { display: block; position: relative; width: 112px; height: 102px; }
+.gift-box-lid {
+  position: absolute; z-index: 2; left: 3px; top: 8px; width: 106px; height: 27px;
+  border-radius: 7px 7px 4px 4px; background: oklch(0.72 0.16 15);
+  border: 3px solid oklch(0.42 0.11 15); transform: rotate(-2deg);
+}
+.gift-box-lid::after {
+  content: ""; position: absolute; left: 47px; top: -16px; width: 14px; height: 22px;
+  border-radius: 7px 7px 2px 2px; background: oklch(0.88 0.13 85);
+  border: 3px solid oklch(0.42 0.11 15);
+}
+.gift-box-body {
+  position: absolute; left: 10px; top: 31px; width: 92px; height: 65px;
+  border-radius: 3px 3px 10px 10px; background: oklch(0.82 0.11 20);
+  border: 3px solid oklch(0.42 0.11 15);
+}
+.gift-box-ribbon { position: absolute; display: block; background: oklch(0.88 0.13 85); }
+.gift-box-ribbon-v { left: 35px; top: -2px; width: 16px; height: 64px; }
+.gift-box-ribbon-h { left: -1px; top: 20px; width: 88px; height: 12px; }
 .mystery-label { margin: 0; letter-spacing: 0.04em; }
 .mystery-glow {
   position: absolute;
@@ -621,3 +639,34 @@
   15% { opacity: 0.9; }
   100% { transform: translateY(-420px) rotate(180deg); opacity: 0; }
 }
+
+/* ── Little Notes replacement for the old sticker room ───────── */
+.little-notes { width: 100%; height: 100%; display: flex; flex-direction: column; gap: 0.65rem; }
+.little-notes-head { width: 100%; }
+.little-notes-kicker {
+  margin: 0 0 0.35rem; font: 700 0.58rem/1 "Patrick Hand", cursive;
+  letter-spacing: 0.18em; color: oklch(0.58 0.09 25);
+}
+.note-cards { display: grid; gap: 0.48rem; }
+.note-card {
+  display: grid; grid-template-columns: 2.1rem 1fr; align-items: center; gap: 0.35rem;
+  width: 100%; padding: 0.7rem 0.65rem; text-align: left; cursor: pointer;
+  border: 1px solid oklch(0.78 0.08 20 / 0.65); border-radius: 0.55rem;
+  background: oklch(0.99 0.015 90 / 0.88); color: oklch(0.36 0.06 25);
+  box-shadow: 0 3px 8px oklch(0 0 0 / 0.08); transition: transform 0.18s ease, background 0.18s ease;
+  font-family: "Patrick Hand", cursive;
+}
+.note-card:hover, .note-card.is-active { transform: translateX(4px) rotate(-1deg); background: oklch(0.96 0.045 25 / 0.92); }
+.note-card-number { font-size: 0.72rem; color: oklch(0.58 0.09 25); }
+.note-card-title { font-size: 0.86rem; line-height: 1.1; }
+.note-letter {
+  position: relative; flex: 1; min-height: 96px; padding: 1.1rem 0.85rem 0.6rem;
+  border: 1px dashed oklch(0.78 0.08 20 / 0.7); border-radius: 0.6rem;
+  background: oklch(1 0.01 90 / 0.45); color: oklch(0.36 0.06 25);
+  display: flex; flex-direction: column; justify-content: center; text-align: center;
+}
+.note-letter.is-open { animation: note-letter-in 0.35s ease-out both; }
+.note-letter-line { position: absolute; top: 0.65rem; left: 18%; right: 18%; border-top: 1px solid oklch(0.78 0.08 20 / 0.55); }
+.note-letter .scrap-text { font-size: 0.78rem; }
+.note-letter-signoff { margin-top: 0.45rem; font: 0.78rem "Patrick Hand", cursive; color: oklch(0.5 0.16 15); }
+@keyframes note-letter-in { from { opacity: 0.35; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }

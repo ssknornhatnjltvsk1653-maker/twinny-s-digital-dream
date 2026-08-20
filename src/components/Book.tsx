@@ -7,15 +7,7 @@ import type { PageFlip } from "page-flip";
 const W = 420;
 const H = 560;
 
-function Sticker({
-  src,
-  className,
-  alt = "",
-}: {
-  src: string;
-  className: string;
-  alt?: string;
-}) {
+function Sticker({ src, className, alt = "" }: { src: string; className: string; alt?: string }) {
   return (
     <img
       src={src}
@@ -66,7 +58,8 @@ export default function Book() {
     // Browser-only library: import it after mount so SSR never touches it.
     void import("page-flip").then((mod) => {
       if (cancelled) return;
-      const Flip = (mod as unknown as { PageFlip: typeof PageFlip }).PageFlip ??
+      const Flip =
+        (mod as unknown as { PageFlip: typeof PageFlip }).PageFlip ??
         (mod as unknown as { default: typeof PageFlip }).default;
 
       flip = new Flip(el, {
@@ -111,7 +104,6 @@ export default function Book() {
 
   return (
     <div ref={bookRef} className="scrap-book">
-
       {/* Front Cover */}
       <div
         className="book-page relative overflow-hidden bg-[#8fb7d9]"
@@ -119,24 +111,19 @@ export default function Book() {
         style={pageStyle}
       >
         <div className="page-canvas">
-          <Sticker src="/pages/front.png" className="scale-130 translate-x-3" /></div>
+          <Sticker src="/pages/front.png" className="scale-130 translate-x-3" />
+        </div>
       </div>
 
       {/* Page 1 */}
-      <div
-        className="book-page relative overflow-hidden bg-amber-50 text-black"
-        style={pageStyle}
-      >
+      <div className="book-page relative overflow-hidden bg-amber-50 text-black" style={pageStyle}>
         <div className="page-canvas">
           <Sticker src="/pages/left.jpg" className="" />
           <Sticker
             src="/elements/fwine.png"
             className="-rotate-12 -translate-x-34 -translate-y-38 scale-30"
           />
-          <Sticker
-            src="/elements/side3.png"
-            className="-translate-x-24 -translate-y-16 scale-70"
-          />
+          <Sticker src="/elements/side3.png" className="-translate-x-24 -translate-y-16 scale-70" />
           <Sticker
             src="/elements/butter.png"
             className="scale-40 rotate-30 -translate-x-28 translate-y-40"
@@ -155,8 +142,8 @@ export default function Book() {
             <p className="scrap-text">
               idk how I even ended up making this for you 😭
               <br />
-              but I genuinely wanted to make something that reminds you how much I
-              appreciate having you in my life
+              but I genuinely wanted to make something that reminds you how much I appreciate having
+              you in my life
               <br />
               you somehow went from being a random person I talked to
               <br />
@@ -174,14 +161,12 @@ export default function Book() {
               <br />
               so thank you for being my twinny
             </p>
-          </Note></div>
+          </Note>
+        </div>
       </div>
 
       {/* Page 2 */}
-      <div
-        className="book-page relative overflow-hidden bg-amber-50 text-black"
-        style={pageStyle}
-      >
+      <div className="book-page relative overflow-hidden bg-amber-50 text-black" style={pageStyle}>
         <div className="page-canvas">
           <Sticker src="/pages/right.jpg" className="" />
           <Sticker
@@ -192,10 +177,7 @@ export default function Book() {
             src="/elements/starB.png"
             className="-rotate-50 -translate-x-18 translate-y-40 scale-42"
           />
-          <Sticker
-            src="/elements/kit.png"
-            className="-translate-x-16 -translate-y-46 scale-40"
-          />
+          <Sticker src="/elements/kit.png" className="-translate-x-16 -translate-y-46 scale-40" />
           <Sticker
             src="/elements/starem.png"
             className="scale-14 rotate-12 translate-x-20 -translate-y-52 z-[80]"
@@ -204,8 +186,7 @@ export default function Book() {
           <Note>
             <h2 className="scrap-title">YOU ACTUALLY MEAN A LOT TO ME 🫂</h2>
             <p className="scrap-text">
-              brooo I genuinely do not think you realise how much I appreciate you
-              😭🤍
+              brooo I genuinely do not think you realise how much I appreciate you 😭🤍
               <br />
               the way you notice little things
               <br />
@@ -230,17 +211,14 @@ export default function Book() {
               <span className="scrap-loud">BESTESTESTESTESTEST TWINYYY</span>
               <br />
               alsoooo
-              <br />
-              I LOVE YOUUU MY HELLO KITTY 😭🍓
+              <br />I LOVE YOUUU MY HELLO KITTY 😭🍓
             </p>
-          </Note></div>
+          </Note>
+        </div>
       </div>
 
       {/* Page 3 */}
-      <div
-        className="book-page relative overflow-hidden bg-amber-50 text-black"
-        style={pageStyle}
-      >
+      <div className="book-page relative overflow-hidden bg-amber-50 text-black" style={pageStyle}>
         <div className="page-canvas">
           <Sticker src="/pages/left.jpg" className="" />
           <Sticker
@@ -277,14 +255,12 @@ export default function Book() {
               <br />
               just take care of yourself yawr 🤍
             </p>
-          </Note></div>
+          </Note>
+        </div>
       </div>
 
       {/* Page 4 */}
-      <div
-        className="book-page relative overflow-hidden bg-amber-50 text-black"
-        style={pageStyle}
-      >
+      <div className="book-page relative overflow-hidden bg-amber-50 text-black" style={pageStyle}>
         <div className="page-canvas">
           <Sticker src="/pages/right.jpg" className="" />
           <Sticker
@@ -306,14 +282,12 @@ export default function Book() {
 
           <div className="page-interactive">
             <StickerRoom />
-          </div></div>
+          </div>
+        </div>
       </div>
 
       {/* Page 5 */}
-      <div
-        className="book-page relative overflow-hidden bg-amber-50 text-black"
-        style={pageStyle}
-      >
+      <div className="book-page relative overflow-hidden bg-amber-50 text-black" style={pageStyle}>
         <div className="page-canvas">
           <Sticker src="/pages/left.jpg" className="" />
           <Sticker
@@ -356,8 +330,7 @@ export default function Book() {
               <br />
               I love you sm my bestest twinny
               <br />
-              nd I hope you always know that you have someone who is rooting for
-              you
+              nd I hope you always know that you have someone who is rooting for you
               <br />
               stay exactly as sweet as you are
               <br />
@@ -367,14 +340,12 @@ export default function Book() {
               <br />
               Mwuhehehehe 🎀⭐
             </p>
-          </Note></div>
+          </Note>
+        </div>
       </div>
 
       {/* Page 6 — Tiny Twinny Puzzle */}
-      <div
-        className="book-page relative overflow-hidden bg-amber-50 text-black"
-        style={pageStyle}
-      >
+      <div className="book-page relative overflow-hidden bg-amber-50 text-black" style={pageStyle}>
         <div className="page-canvas">
           <Sticker src="/pages/right.jpg" className="" />
           <Sticker
@@ -392,10 +363,7 @@ export default function Book() {
       </div>
 
       {/* Page 7 — Final Mystery Box */}
-      <div
-        className="book-page relative overflow-hidden bg-amber-50 text-black"
-        style={pageStyle}
-      >
+      <div className="book-page relative overflow-hidden bg-amber-50 text-black" style={pageStyle}>
         <div className="page-canvas">
           <Sticker src="/pages/left.jpg" className="" />
           <Sticker
@@ -413,25 +381,19 @@ export default function Book() {
       </div>
 
       {/* Inside back page (keeps the spread even for the flip engine) */}
-      <div
-        className="book-page relative overflow-hidden bg-amber-50 text-black"
-        style={pageStyle}
-      >
+      <div className="book-page relative overflow-hidden bg-amber-50 text-black" style={pageStyle}>
         <div className="page-canvas">
           <Sticker src="/pages/right.jpg" className="" />
-          <Sticker
-            src="/elements/kit.png"
-            className="scale-45 -translate-y-6 z-[60]"
-          />
+          <Sticker src="/elements/kit.png" className="scale-45 -translate-y-6 z-[60]" />
           <Sticker
             src="/elements/twoStar.png"
             className="scale-26 translate-x-22 translate-y-44 z-[60]"
           />
           <div className="absolute inset-x-0 bottom-14 z-[70] text-center">
             <span className="scrap-note scrap-loud">the end 🎀🍓</span>
-          </div></div>
+          </div>
+        </div>
       </div>
-
 
       {/* Back Cover */}
       <div
@@ -440,7 +402,8 @@ export default function Book() {
         style={pageStyle}
       >
         <div className="page-canvas">
-          <Sticker src="/pages/back.png" className="scale-130 translate-x-3" /></div>
+          <Sticker src="/pages/back.png" className="scale-130 translate-x-3" />
+        </div>
       </div>
     </div>
   );

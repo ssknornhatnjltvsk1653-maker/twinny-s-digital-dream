@@ -33,10 +33,10 @@ function Index() {
         <Book />
       </div>
       <p className="scrap-hint mt-5 text-center">
-        drag the page corner to flip 🎀
+        drag the page corner to flip
         <br />
         <span className="scrap-hint-small">
-          keep flipping → sticker room → puzzle → mystery box ⭐
+          keep flipping to the little notes, puzzle, and gift
         </span>
       </p>
     </main>

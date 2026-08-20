@@ -9,8 +9,7 @@ function getCtx(): AudioContext | null {
     if (!ctx) {
       const Ctor =
         window.AudioContext ??
-        (window as unknown as { webkitAudioContext?: typeof AudioContext })
-          .webkitAudioContext;
+        (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       if (!Ctor) return null;
       ctx = new Ctor();
     }
@@ -56,9 +55,7 @@ export function playKawaii(name: KawaiiSound) {
       [784, 988, 1175, 1568].forEach((f, i) => blip(f, i * 0.09, 0.14, 0.05));
       break;
     case "open":
-      [523, 659, 784, 1046, 1319].forEach((f, i) =>
-        blip(f, i * 0.07, 0.16, 0.05),
-      );
+      [523, 659, 784, 1046, 1319].forEach((f, i) => blip(f, i * 0.07, 0.16, 0.05));
       break;
   }
 }
