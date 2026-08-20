@@ -142,3 +142,482 @@
     color: var(--color-foreground);
   }
 }
+
+/* ── Scrapbook ─────────────────────────────────────────── */
+.scrap-stage {
+  background:
+    radial-gradient(circle at 20% 20%, oklch(0.95 0.04 20 / 0.7), transparent 55%),
+    radial-gradient(circle at 80% 80%, oklch(0.93 0.05 250 / 0.7), transparent 55%),
+    oklch(0.97 0.012 90);
+}
+
+.scrap-book {
+  filter: drop-shadow(0 24px 40px oklch(0 0 0 / 0.25));
+}
+
+.scrap-note {
+  background: oklch(0.99 0.015 90 / 0.86);
+  border: 1px dashed oklch(0.78 0.08 20 / 0.7);
+  border-radius: 0.6rem;
+  padding: 0.85rem 0.7rem;
+  box-shadow: 0 6px 16px oklch(0 0 0 / 0.12);
+  font-family: "Patrick Hand", ui-rounded, "Comic Sans MS", cursive;
+  color: oklch(0.32 0.05 25);
+  text-align: center;
+  text-shadow: 0 1px 0 oklch(1 0 0 / 0.7);
+}
+
+.scrap-title {
+  font-family: "Gaegu", "Patrick Hand", cursive;
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.15;
+  color: oklch(0.5 0.16 15);
+  margin-bottom: 0.5rem;
+}
+
+.scrap-text {
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.scrap-loud {
+  font-weight: 700;
+  color: oklch(0.52 0.17 15);
+}
+
+.scrap-list {
+  font-size: 0.86rem;
+  line-height: 1.6;
+  margin-bottom: 0.6rem;
+}
+
+.scrap-list li::before {
+  content: "🍓 ";
+}
+
+.scrap-hint {
+  font-family: "Patrick Hand", cursive;
+  color: oklch(0.55 0.05 25);
+  font-size: 0.9rem;
+}
+
+/* ── Responsive book shell ─────────────────────────────── */
+.scrap-stage {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.scrap-book-shell {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 880px;
+  margin-inline: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.scrap-book {
+  width: 100%;
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+/* Every page keeps its original 420x560 artwork and is scaled to fit. */
+.page-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 420px;
+  height: 560px;
+  transform: scale(var(--page-scale, 1));
+  transform-origin: top left;
+}
+
+.page-interactive {
+  position: absolute;
+  inset: 0;
+  z-index: 95;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem;
+  animation: scrap-page-in 0.5s ease-out both;
+}
+
+@keyframes scrap-page-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.scrap-hint-small {
+  font-size: 0.78rem;
+  opacity: 0.8;
+}
+
+/* ── Cute buttons ──────────────────────────────────────── */
+.scrap-btn {
+  font-family: "Patrick Hand", ui-rounded, "Comic Sans MS", cursive;
+  font-size: 0.85rem;
+  padding: 0.45rem 0.95rem;
+  min-height: 40px;
+  border-radius: 999px;
+  border: 1px dashed oklch(0.72 0.11 15 / 0.8);
+  background: oklch(0.99 0.02 90 / 0.92);
+  color: oklch(0.42 0.13 15);
+  box-shadow: 0 4px 10px oklch(0 0 0 / 0.12);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  touch-action: manipulation;
+}
+.scrap-btn:hover { transform: translateY(-2px) rotate(-1deg); }
+.scrap-btn:active { transform: scale(0.95); }
+
+/* ── Dreamy animated background ────────────────────────── */
+.scrap-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scrap-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.55;
+  animation: scrap-drift 26s ease-in-out infinite alternate;
+}
+.scrap-blob-1 {
+  width: 46vmax; height: 46vmax; top: -12vmax; left: -10vmax;
+  background: oklch(0.9 0.09 20 / 0.75);
+}
+.scrap-blob-2 {
+  width: 40vmax; height: 40vmax; bottom: -14vmax; right: -8vmax;
+  background: oklch(0.9 0.08 250 / 0.7);
+  animation-duration: 32s;
+}
+.scrap-blob-3 {
+  width: 30vmax; height: 30vmax; top: 35%; left: 55%;
+  background: oklch(0.94 0.09 100 / 0.6);
+  animation-duration: 38s;
+}
+@keyframes scrap-drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(4vmax, -3vmax, 0) scale(1.12); }
+}
+
+.scrap-floaty {
+  position: absolute;
+  bottom: -10vh;
+  opacity: 0.55;
+  animation-name: scrap-float-up;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+@keyframes scrap-float-up {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.5; }
+  100% { transform: translateY(-115vh) rotate(160deg); opacity: 0; }
+}
+
+.scrap-twinkle {
+  position: absolute;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: oklch(0.98 0.06 95);
+  box-shadow: 0 0 8px oklch(0.9 0.1 60 / 0.9);
+  animation: scrap-twinkle 4.5s ease-in-out infinite;
+}
+@keyframes scrap-twinkle {
+  0%, 100% { opacity: 0.15; transform: scale(0.6); }
+  50% { opacity: 0.95; transform: scale(1.3); }
+}
+
+.scrap-shoot {
+  position: absolute;
+  width: 90px; height: 2px;
+  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.9));
+  border-radius: 2px;
+  opacity: 0;
+  animation: scrap-shoot 12s ease-in infinite;
+}
+.scrap-shoot-1 { top: 12%; left: -12%; }
+.scrap-shoot-2 { top: 62%; left: -12%; animation-delay: 6.5s; }
+@keyframes scrap-shoot {
+  0%   { transform: translate(0, 0) rotate(18deg); opacity: 0; }
+  4%   { opacity: 0.9; }
+  14%  { transform: translate(120vw, 26vh) rotate(18deg); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrap-floaty, .scrap-twinkle, .scrap-shoot, .scrap-blob,
+  .mystery-particle, .puzzle-confetti { animation: none !important; }
+}
+
+/* ── Digital Sticker Room ──────────────────────────────── */
+.sticker-room {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+.sticker-room-head { width: 100%; }
+
+.sticker-field {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  border: 1px dashed oklch(0.78 0.08 20 / 0.55);
+  border-radius: 0.8rem;
+  background: oklch(1 0.01 90 / 0.35);
+}
+
+.sticker {
+  position: absolute;
+  line-height: 1;
+  border: none;
+  background: transparent;
+  padding: 8px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 3px 4px oklch(0 0 0 / 0.2));
+}
+.sticker-inner {
+  display: inline-block;
+  animation: sticker-jump 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+@keyframes sticker-jump {
+  0% { transform: translateY(0) scale(1); }
+  40% { transform: translateY(-12px) scale(1.25); }
+  100% { transform: translateY(0) scale(1); }
+}
+.sticker-sparkle {
+  position: absolute;
+  top: -6px; right: -4px;
+  font-size: 0.7rem;
+  animation: sticker-sparkle 0.7s ease-out forwards;
+  pointer-events: none;
+}
+@keyframes sticker-sparkle {
+  0% { opacity: 0; transform: scale(0.4) rotate(0deg); }
+  40% { opacity: 1; transform: scale(1.2) rotate(25deg); }
+  100% { opacity: 0; transform: scale(0.8) translateY(-14px) rotate(60deg); }
+}
+.sticker-secret {
+  position: absolute;
+  font-size: 1.4rem;
+  transform: translate(-50%, -50%);
+  animation: sticker-pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+             sticker-wobble 3s ease-in-out 0.5s infinite;
+  pointer-events: none;
+}
+@keyframes sticker-pop-in {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.2) rotate(-30deg); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+}
+@keyframes sticker-wobble {
+  0%, 100% { rotate: -6deg; }
+  50% { rotate: 6deg; }
+}
+
+/* ── Tiny Twinny Puzzle ────────────────────────────────── */
+.puzzle-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+}
+.puzzle-head { width: 100%; }
+
+.puzzle-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  width: 250px;
+  height: 250px;
+  padding: 6px;
+  border-radius: 0.8rem;
+  background: oklch(0.99 0.015 90 / 0.9);
+  border: 1px dashed oklch(0.78 0.08 20 / 0.7);
+  box-shadow: 0 6px 16px oklch(0 0 0 / 0.14);
+}
+.puzzle-tile {
+  border-radius: 0.45rem;
+  border: 1px solid oklch(0.85 0.03 60 / 0.8);
+  background-repeat: no-repeat;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.puzzle-tile:hover { transform: scale(1.04); }
+.puzzle-tile.is-picked {
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 0 0 3px oklch(0.72 0.16 15 / 0.8);
+}
+.puzzle-tile.is-solved { border-color: transparent; }
+
+.puzzle-win {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  border-radius: 0.8rem;
+  background: oklch(1 0.02 90 / 0.82);
+  animation: scrap-page-in 0.4s ease-out both;
+  pointer-events: none;
+  overflow: hidden;
+}
+.puzzle-win-text {
+  font-family: "Gaegu", "Patrick Hand", cursive;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: oklch(0.5 0.16 15);
+}
+.puzzle-win-sub {
+  font-family: "Patrick Hand", cursive;
+  font-size: 0.85rem;
+  color: oklch(0.42 0.09 25);
+}
+.puzzle-confetti {
+  position: absolute;
+  top: -12%;
+  font-size: 0.9rem;
+  animation: puzzle-confetti 2.4s ease-in infinite;
+}
+@keyframes puzzle-confetti {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  15% { opacity: 1; }
+  100% { transform: translateY(260px) rotate(220deg); opacity: 0; }
+}
+
+/* ── Mystery Box ───────────────────────────────────────── */
+.mystery-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.mystery-box {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  animation: mystery-float 3.4s ease-in-out infinite;
+}
+@keyframes mystery-float {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+.mystery-btn {
+  border: none;
+  background: transparent;
+  font-size: 4.2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 12px;
+  touch-action: manipulation;
+  filter: drop-shadow(0 8px 12px oklch(0 0 0 / 0.25));
+  transition: transform 0.2s ease;
+}
+.mystery-btn:hover { transform: scale(1.08) rotate(-3deg); }
+.mystery-btn:active { transform: scale(0.94); }
+.mystery-label { margin: 0; letter-spacing: 0.04em; }
+.mystery-glow {
+  position: absolute;
+  top: 40%; left: 50%;
+  width: 180px; height: 180px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, oklch(0.95 0.09 90 / 0.75), transparent 65%);
+  animation: mystery-glow 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+@keyframes mystery-glow {
+  0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(0.9); }
+  50% { opacity: 0.9; transform: translate(-50%, -50%) scale(1.12); }
+}
+.mystery-box.is-opening { animation: mystery-open 0.9s ease-in forwards; }
+@keyframes mystery-open {
+  0% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.08) rotate(-6deg); }
+  50% { transform: scale(1.08) rotate(6deg); }
+  75% { transform: scale(1.2) rotate(-3deg); opacity: 1; }
+  100% { transform: scale(1.7) rotate(0deg); opacity: 0; }
+}
+
+.mystery-reveal {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: scrap-page-in 0.6s ease-out both;
+}
+.mystery-note { width: 100%; }
+
+.video-frame {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  padding: 8px;
+  border-radius: 1rem;
+  background: oklch(0.99 0.015 90 / 0.95);
+  border: 1px dashed oklch(0.78 0.08 20 / 0.8);
+  box-shadow: 0 8px 20px oklch(0 0 0 / 0.18);
+  rotate: -1deg;
+}
+.video-el {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  border-radius: 0.7rem;
+  background: oklch(0.2 0.02 260);
+  object-fit: contain;
+}
+.video-missing { padding: 1.2rem 0.6rem; }
+
+.mystery-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.mystery-particle {
+  position: absolute;
+  bottom: -20px;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  animation-name: mystery-particle;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes mystery-particle {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  15% { opacity: 0.9; }
+  100% { transform: translateY(-420px) rotate(180deg); opacity: 0; }
+}
