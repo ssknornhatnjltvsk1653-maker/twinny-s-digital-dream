@@ -16,15 +16,24 @@ export default function MysteryBox() {
 
     playKawaii("open");
 
-    // Start playback directly from the box click. The previous version waited
-    // 700ms before calling play(), which loses the browser's user-gesture
-    // permission and commonly blocks video playback on mobile.
+    // Critical: start playback immediately inside the user-gesture handler.
+    // Delayed play() (even 60ms later) loses the gesture and gets blocked on mobile.
     const video = videoRef.current;
     if (video) {
       video.currentTime = 0;
-      void video.play()
-        .then(() => setNeedsTap(false))
-        .catch(() => setNeedsTap(true));
+      // Start muted so autoplay is almost always allowed, then try to unmute.
+      video.muted = true;
+      void video
+        .play()
+        .then(() => {
+          // Try to unmute after successful start (still inside the original gesture in most browsers)
+          video.muted = false;
+          setNeedsTap(false);
+        })
+        .catch(() => {
+          // Even muted play failed (rare) → show manual button
+          setNeedsTap(true);
+        });
     }
 
     setState("opening");
@@ -39,15 +48,13 @@ export default function MysteryBox() {
     if (!video) return;
 
     video.muted = false;
-    void video.play()
+    void video
+      .play()
       .then(() => setNeedsTap(false))
       .catch(() => {
-        // Some mobile browsers may still block sound. In that case, make sure
-        // the surprise can at least start playing silently.
+        // Last resort: play muted so the surprise still works
         video.muted = true;
-        void video.play()
-          .then(() => setNeedsTap(false))
-          .catch(() => undefined);
+        void video.play().then(() => setNeedsTap(false)).catch(() => undefined);
       });
   };
 
@@ -84,6 +91,7 @@ export default function MysteryBox() {
         </div>
       )}
 
+      {/* Video is mounted early (hidden) so the click can start playback as a real user gesture */}
       <div className={`video-frame mystery-video-frame${state === "open" ? " is-visible" : ""}`}>
         {!videoBroken ? (
           <video
@@ -92,6 +100,7 @@ export default function MysteryBox() {
             src={VIDEO_SRC}
             preload="auto"
             playsInline
+            muted
             controls={state === "open"}
             onError={() => setVideoBroken(true)}
           />
