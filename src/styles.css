@@ -142,3 +142,62 @@
     color: var(--color-foreground);
   }
 }
+
+/* ── Scrapbook ─────────────────────────────────────────── */
+.scrap-stage {
+  background:
+    radial-gradient(circle at 20% 20%, oklch(0.95 0.04 20 / 0.7), transparent 55%),
+    radial-gradient(circle at 80% 80%, oklch(0.93 0.05 250 / 0.7), transparent 55%),
+    oklch(0.97 0.012 90);
+}
+
+.scrap-book {
+  filter: drop-shadow(0 24px 40px oklch(0 0 0 / 0.25));
+}
+
+.scrap-note {
+  background: oklch(0.99 0.015 90 / 0.86);
+  border: 1px dashed oklch(0.78 0.08 20 / 0.7);
+  border-radius: 0.6rem;
+  padding: 0.85rem 0.7rem;
+  box-shadow: 0 6px 16px oklch(0 0 0 / 0.12);
+  font-family: "Patrick Hand", ui-rounded, "Comic Sans MS", cursive;
+  color: oklch(0.32 0.05 25);
+  text-align: center;
+  text-shadow: 0 1px 0 oklch(1 0 0 / 0.7);
+}
+
+.scrap-title {
+  font-family: "Gaegu", "Patrick Hand", cursive;
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1.15;
+  color: oklch(0.5 0.16 15);
+  margin-bottom: 0.5rem;
+}
+
+.scrap-text {
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.scrap-loud {
+  font-weight: 700;
+  color: oklch(0.52 0.17 15);
+}
+
+.scrap-list {
+  font-size: 0.86rem;
+  line-height: 1.6;
+  margin-bottom: 0.6rem;
+}
+
+.scrap-list li::before {
+  content: "🍓 ";
+}
+
+.scrap-hint {
+  font-family: "Patrick Hand", cursive;
+  color: oklch(0.55 0.05 25);
+  font-size: 0.9rem;
+}
