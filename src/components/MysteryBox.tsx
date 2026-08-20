@@ -23,7 +23,7 @@ export default function MysteryBox() {
         if (!v) return;
         void v.play().catch(() => setNeedsTap(true));
       }, 60);
-    }, 900);
+    }, 700);
   };
 
   const manualPlay = () => {
@@ -43,10 +43,7 @@ export default function MysteryBox() {
   return (
     <div
       className="mystery-wrap"
-      onPointerDownCapture={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-      }}
+      onPointerDownCapture={(event) => event.stopPropagation()}
       onPointerMoveCapture={(event) => event.stopPropagation()}
       onPointerUpCapture={(event) => event.stopPropagation()}
       onClickCapture={(event) => event.stopPropagation()}
@@ -89,16 +86,27 @@ export default function MysteryBox() {
                 ref={videoRef}
                 className="video-el"
                 src={VIDEO_SRC}
-                preload="none"
+                preload="auto"
                 playsInline
                 controls
+                autoPlay
+                onLoadedData={() => {
+                  const video = videoRef.current;
+                  if (video) void video.play().catch(() => setNeedsTap(true));
+                }}
+                onCanPlay={() => {
+                  const video = videoRef.current;
+                  if (video && video.paused) {
+                    void video.play().catch(() => setNeedsTap(true));
+                  }
+                }}
                 onError={() => setVideoBroken(true)}
               />
             ) : (
               <p className="scrap-text video-missing">
                 the video is not here yet 😭
                 <br />
-                drop it at <code>public/video/final-video.mp4</code>
+                drop it at <code>public/video/twinny-surprise.mp4</code>
               </p>
             )}
           </div>
