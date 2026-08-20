@@ -13,10 +13,10 @@ function shuffle(prev: number[]) {
   const a = [...prev];
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+    [a[i], a[j]] = [a[j]!, a[i]!];
   }
   // never hand back an already-solved board
-  if (a.every((v, i) => v === i)) [a[0], a[1]] = [a[1], a[0]];
+  if (a.every((v, i) => v === i)) [a[0], a[1]] = [a[1]!, a[0]!];
   return a;
 }
 
@@ -39,7 +39,7 @@ export default function TinyPuzzle() {
       return;
     }
     const next = [...tiles];
-    [next[picked], next[idx]] = [next[idx], next[picked]];
+    [next[picked], next[idx]] = [next[idx]!, next[picked]!];
     setTiles(next);
     setPicked(null);
     if (next.every((v, i) => v === i)) playKawaii("win");
